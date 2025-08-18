@@ -8,6 +8,13 @@ from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
 
+import json
+
+with open('config.json', 'r') as f:
+    config = json.load(f)
+
+chrome_path = config.get("chrome_path")
+
 '''
     카드 정보 조회
     shinhan_cardInfos.csv : card_name, card_url, card_img
@@ -15,6 +22,10 @@ from bs4 import BeautifulSoup
 url = "https://www.shinhancard.com/pconts/html/card/credit/MOBFM281/MOBFM281R11.html"
 
 chrome_options = Options()
+
+# Chrome 설치된 경로로 변경
+chrome_options.binary_location = chrome_path  
+
 chrome_options.add_argument('--headless')  
 
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
@@ -83,6 +94,10 @@ for i in range(len(card_urls)):
     url = f'https://www.shinhancard.com/pconts/html/card/apply/credit/{card_urls[i]}'
 
     chrome_options = Options()
+
+    # Chrome 설치된 경로로 변경
+    chrome_options.binary_location = chrome_path  
+
     chrome_options.add_argument('--headless')  
 
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
